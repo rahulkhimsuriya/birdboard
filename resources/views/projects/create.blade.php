@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>birdboard</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+@extends('layouts.app')
 
-</head>
-<body>
-
-<div class="container mt-5">
+@section('content')
 
   <h1>Create a Project</h1>
 
@@ -29,10 +19,8 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Create Project</button>
+    <a href="/projects" class="btn btn-dark">Cancel</a>
 
   </form>
 
-</div>
-
-</body>
-</html>
+@endsection
