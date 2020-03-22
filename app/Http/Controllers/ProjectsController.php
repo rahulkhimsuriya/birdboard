@@ -35,10 +35,8 @@ class ProjectsController extends Controller
             'description' => 'required'
         ]);
 
-        // $attributes['owner_id'] = auth()->id();
+        $project = auth()->user()->projects()->create($attributes);
 
-        auth()->user()->projects()->create($attributes);
-
-        return redirect('/projects');
+        return redirect($project->path());
     }
 }
