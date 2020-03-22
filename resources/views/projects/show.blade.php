@@ -17,11 +17,11 @@
       <div class="mb-8">
         <h2 class="text-lg mb-3 font-normal text-gray-500">Tasks</h2>
         {{-- Tasks --}}
-        <div class="card mb-3">Task Lorem ipsum.</div>
-        <div class="card mb-3">Task Lorem ipsum.</div>
-        <div class="card mb-3">Task Lorem ipsum.</div>
-        <div class="card mb-3">Task Lorem ipsum.</div>
-        <div class="card">Task Lorem ipsum.</div>
+        @forelse ($project->tasks as $task)
+          <div class="card mb-3">{{ $task->body }}</div>
+        @empty
+          <div class="card">No Task.</div>
+        @endforelse
       </div>
 
       <div class="mb-8 lg:mb-0">
