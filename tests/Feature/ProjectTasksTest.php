@@ -1,101 +1,89 @@
 <?php
-
-namespace Tests\Feature;
-
-use App\Project;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-
-class ProjectTasksTest extends TestCase
-{
+  
+  namespace Tests\Feature;
+  
+  use App\Project;
+  use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Illuminate\Foundation\Testing\WithFaker;
+  use Facades\Tests\Setup\ProjectFactory;
+  use Tests\TestCase;
+  
+  class ProjectTasksTest extends TestCase {
+    
     use WithFaker, RefreshDatabase;
-
+    
     /** @test */
-    public function guest_cannot_add_tasks_to_projects()
+    public function guest_cannot_add_tasks_to_projects ()
     {
-        $project = factory(Project::class)->create();
-
-        $this->post($project->path() . '/tasks')->assertRedirect('/login');
+      $project = factory( Project::class )->create();
+      
+      $this->post( $project->path() . '/tasks' )->assertRedirect( '/login' );
     }
-
+    
     /** @test */
-    public function only_the_owner_of_a_project_may_add_tasks()
+    public function only_the_owner_of_a_project_may_add_tasks ()
     {
-        $this->signIn();
-
-        $project = factory('App\Project')->create();
-
-        $this->post($project->path() . '/tasks', ['body' => 'Test task'])
-            ->assertStatus(403);
-
-        $this->assertDatabaseMissing('tasks', ['body' => 'Test task']);
+      $this->signIn();
+      
+      $project = factory( 'App\Project' )->create();
+      
+      $this->post( $project->path() . '/tasks', [ 'body' => 'Test task' ] )
+        ->assertStatus( 403 );
+      
+      $this->assertDatabaseMissing( 'tasks', [ 'body' => 'Test task' ] );
     }
-
+    
     /** @test */
-    public function only_the_owner_of_a_project_may_update_tasks()
+    public function only_the_owner_of_a_project_may_update_tasks ()
     {
-        $this->signIn();
-
-        $project = factory('App\Project')->create();
-
-        $task = $project->addTask('Test task');
-
-        $this->patch($task->path(), ['body' => 'changed'])
-            ->assertStatus(403);
-
-        $this->assertDatabaseMissing('tasks', ['body' => 'changed']);
+      $this->signIn();
+      
+      $project = ProjectFactory::withTasks( 1 )->create();
+      
+      $this->patch( $project->tasks->first()->path(), [ 'body' => 'changed' ] )
+        ->assertStatus( 403 );
+      
+      $this->assertDatabaseMissing( 'tasks', [ 'body' => 'changed' ] );
     }
-
+    
     /** @test */
-    public function a_project_can_have_tasks()
+    public function a_project_can_have_tasks ()
     {
-        $this->signIn();
-
-        $project = auth()->user()->projects()->create(
-            factory(Project::class)->raw()
-        );
-
-        $this->post($project->path() . '/tasks', ['body' => 'Test Task']);
-
-        $this->get($project->path())->assertSee('Test Task');
+      $project = ProjectFactory::create();
+      
+      $this->actingAs( $project->owner )
+        ->post( $project->path() . '/tasks', [ 'body' => 'Test Task' ] );
+      
+      $this->get( $project->path() )->assertSee( 'Test Task' );
     }
-
+    
     /** @test */
-    public function a_task_can_be_updated()
+    public function a_task_can_be_updated ()
     {
-        $this->withoutExceptionHandling();
-
-        $this->signIn();
-
-        $project = auth()->user()->projects()->create(
-            factory(Project::class)->raw()
-        );
-
-        $task = $project->addTask('Test task');
-
-        $this->patch($task->path(), [
-            'body' => 'changed',
-            'completed' => true
-        ]);
-
-        $this->assertDatabaseHas('tasks', [
-            'body' => 'changed',
-            'completed' => true
-        ]);
+      $project = ProjectFactory::withTasks( 1 )->create();
+      
+      $this->actingAs( $project->owner )
+        ->patch( $project->tasks->first()->path(), [
+          'body' => 'changed',
+          'completed' => true,
+        ] );
+      
+      $this->assertDatabaseHas( 'tasks', [
+        'body' => 'changed',
+        'completed' => true,
+      ] );
     }
-
+    
     /** @test */
-    public function a_task_requires_a_body()
+    public function a_task_requires_a_body ()
     {
-        $this->signIn();
-
-        $project = auth()->user()->projects()->create(
-            factory(Project::class)->raw()
-        );
-
-        $attributes = factory('App\Task')->raw(['body' => '']);
-
-        $this->post($project->path() . '/tasks', $attributes)->assertSessionHasErrors('body');
+      $project = ProjectFactory::create();
+      
+      $attributes = factory( 'App\Task' )->raw( [ 'body' => '' ] );
+      
+      $this->actingAs( $project->owner )
+        ->post( $project->path() . '/tasks', $attributes )
+        ->assertSessionHasErrors( 'body' );
     }
-}
+    
+  }
