@@ -53,6 +53,16 @@
             <textarea class="card w-full mb-4" name="notes" id="notes" rows="5"
                       placeholder="Anything special that you want to make a note of?">{{ $project->notes  }}</textarea>
 
+            @if ( $errors->any() )
+              <div class="field mt-3">
+                <ul>
+                  @foreach( $errors->all() as $error )
+                    <li class="text-sm text-red-500 mb-3">{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
+
             <button type="submit" class="button">Save</button>
 
           </form>
