@@ -6,7 +6,7 @@
     <h2 class="text-xl font-normal text-gray-500">
       <a href="/projects" class="text-xl font-normal text-gray-500">My Projects</a> / {{ $project->title }}
     </h2>
-    <a href="/projects/create" class="ml-auto button">Create Project</a>
+    <a href="{{ $project->path().'/edit' }}" class="ml-auto button">Edit Project</a>
   </header>
 
   <main>

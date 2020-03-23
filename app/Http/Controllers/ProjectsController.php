@@ -28,26 +28,37 @@
     
     public function store ()
     {
-      $attributes = request()->validate( [
-        'title' => 'required',
-        'description' => 'required',
-        'notes' => [ 'min:3', 'max:255' ],
-      ] );
+      $attributes = $this->validateRequest();
       
       $project = auth()->user()->projects()->create( $attributes );
       
       return redirect( $project->path() );
     }
     
+    public function edit ( Project $project )
+    {
+      return view( 'projects.edit', compact( 'project' ) );
+    }
+    
     public function update ( Project $project )
     {
       $this->authorize( 'update', $project );
       
-      $project->update( [
-        'notes' => request( 'notes' ),
-      ] );
+      $attributes = $this->validateRequest();
+      
+      $project->update( $attributes );
       
       return redirect( $project->path() );
+    }
+    
+    public function validateRequest ()
+    {
+      return request()->validate( [
+        'title' => 'required',
+        'description' => 'required',
+        'notes' => [ 'min:3', 'max:255' ],
+      ] );
+      
     }
     
   }
