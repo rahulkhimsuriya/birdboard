@@ -44,9 +44,7 @@
     {
       $this->authorize( 'update', $project );
       
-      $attributes = $this->validateRequest();
-      
-      $project->update( $attributes );
+      $project->update( $this->validateRequest() );
       
       return redirect( $project->path() );
     }
@@ -54,11 +52,10 @@
     public function validateRequest ()
     {
       return request()->validate( [
-        'title' => 'required',
-        'description' => 'required',
-        'notes' => [ 'min:3', 'max:255' ],
+        'title' => [ 'sometimes', 'required' ],
+        'description' => [ 'sometimes', 'required' ],
+        'notes' => [ 'nullable', 'max:255' ],
       ] );
-      
     }
     
   }
