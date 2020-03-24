@@ -13,6 +13,14 @@
       return "/projects/{$this->id}";
     }
     
+    public function recordActivity ( $type )
+    {
+      Activity::create( [
+        'project_id' => $this->id,
+        'description' => $type,
+      ] );
+    }
+    
     public function owner ()
     {
       return $this->belongsTo( User::class );
