@@ -30,7 +30,7 @@
     
     public function activityDescription ( $description )
     {
-        return "{$description}_" . strtolower( class_basename( $this ) ); // created_tast
+      return "{$description}_" . strtolower( class_basename( $this ) ); // created_tast
     }
     
     /**
@@ -51,6 +51,7 @@
     public function recordActivity ( $description )
     {
       $this->activity()->create( [
+        'user_id' => ( $this->project ?? $this )->owner->id,
         'description' => $description,
         'changes' => $this->activityChanges(),
         'project_id' => class_basename( $this ) === 'Project' ? $this->id : $this->project_id,
