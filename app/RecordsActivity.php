@@ -42,7 +42,7 @@
         return static::$recordableEvent;
       }
       
-      return [ 'created', 'updated', 'deleted' ];
+      return [ 'created', 'updated' ];
     }
     
     /**

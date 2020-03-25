@@ -48,8 +48,17 @@
       
       return redirect( $project->path() );
     }
+  
+    public function destroy ( Project $project )
+    {
+      $this->authorize( 'update', $project );
+      
+      $project->delete();
+      
+      return redirect('/projects');
+    }
     
-    public function validateRequest ()
+    protected function validateRequest ()
     {
       return request()->validate( [
         'title' => [ 'sometimes', 'required' ],
