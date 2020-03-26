@@ -5,14 +5,17 @@
   <header class="flex items-center mb-3 py-4">
     <div class="flex justify-between items-end w-full">
       <h2 class="text-xl font-normal text-gray-500">
-        <a href="/projects" class="text-xl font-normal text-gray-500 no-underline hover:underline">My Projects</a> / {{ $project->title }}
+        <a href="/projects" class="text-xl font-normal text-gray-500 no-underline hover:underline">My Projects</a>
+        / {{ $project->title }}
       </h2>
 
       <div class="flex items-center">
-        @foreach( $project->members as $member)
-          <img src="{{ gravatar_url($member->email) }}" alt="{{ $member->name }}'s avatar" class="rounded-full w-8 mr-2" />
+        @foreach ($project->members as $member)
+          <img src="{{ gravatar_url($member->email) }}" alt="{{ $member->name }}'s avatar"
+               class="rounded-full w-8 mr-2" />
         @endforeach
-          <img src="{{ gravatar_url($member->email) }}" alt="{{ $project->owner->name }}'s avatar" class="rounded-full w-8 mr-2" />
+        <img src="{{ gravatar_url($project->owner->email) }}" alt="{{ $project->owner->name }}'s avatar"
+             class="rounded-full w-8 mr-2" />
 
         <a href="{{ $project->path().'/edit' }}" class="button ml-6">Edit Project</a>
       </div>
@@ -63,17 +66,9 @@
             <textarea class="card w-full mb-4" name="notes" id="notes" rows="5"
                       placeholder="Anything special that you want to make a note of?">{{ $project->notes  }}</textarea>
 
-            @if ( $errors->any() )
-              <div class="field mt-3">
-                <ul>
-                  @foreach( $errors->all() as $error )
-                    <li class="text-sm text-red-500 mb-3">{{ $error }}</li>
-                  @endforeach
-                </ul>
-              </div>
-            @endif
-
             <button type="submit" class="button">Save</button>
+
+            @include('errors')
 
           </form>
         </div>
@@ -83,6 +78,25 @@
       <div class="lg:w-1/4 px-3 mt-8">
         @include('projects.card')
         @include('projects.activity.card')
+
+        <div class="card flex flex-col mt-3">
+          <h3 class="text-xl font-normal py-4 -ml-5 border-l-4 pl-4 border-blue-400 mb-3">
+            Invite a User
+          </h3>
+
+          <form action="{{ $project->path().'/invitations' }}" method="post">
+            @csrf
+            <div class="mb-3">
+              <input type="text" name="email" class="border border-gray-400 px-3 py-2 rounded w-full"
+                     placeholder="Email address">
+            </div>
+            <button type="submit" class="button">Invite</button>
+          </form>
+
+          @include('errors', ['bag' => 'invitations'])
+        </div>
+
+
       </div>
 
     </div>
