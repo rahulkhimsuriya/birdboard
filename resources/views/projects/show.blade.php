@@ -2,11 +2,21 @@
 
 @section('content')
 
-  <header class="flex items-end my-6">
-    <h2 class="text-xl font-normal text-gray-500">
-      <a href="/projects" class="text-xl font-normal text-gray-500">My Projects</a> / {{ $project->title }}
-    </h2>
-    <a href="{{ $project->path().'/edit' }}" class="ml-auto button">Edit Project</a>
+  <header class="flex items-center mb-3 py-4">
+    <div class="flex justify-between items-end w-full">
+      <h2 class="text-xl font-normal text-gray-500">
+        <a href="/projects" class="text-xl font-normal text-gray-500 no-underline hover:underline">My Projects</a> / {{ $project->title }}
+      </h2>
+
+      <div class="flex items-center">
+        @foreach( $project->members as $member)
+          <img src="{{ gravatar_url($member->email) }}" alt="{{ $member->name }}'s avatar" class="rounded-full w-8 mr-2" />
+        @endforeach
+          <img src="{{ gravatar_url($member->email) }}" alt="{{ $project->owner->name }}'s avatar" class="rounded-full w-8 mr-2" />
+
+        <a href="{{ $project->path().'/edit' }}" class="button ml-6">Edit Project</a>
+      </div>
+    </div>
   </header>
 
   <main>
