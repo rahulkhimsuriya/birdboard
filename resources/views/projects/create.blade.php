@@ -6,7 +6,7 @@
 
   <form action="/projects" method="POST">
 
-    @include('projects._form', [
+    @include('projects.form', [
       'project' => new App\Project(),
       'buttonText' => 'Create Project'
     ]);

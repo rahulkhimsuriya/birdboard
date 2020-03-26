@@ -8,7 +8,7 @@
 
     @method('PATCH')
 
-    @include('projects._form', ['buttonText' => 'Update Project'])
+    @include('projects.form', ['buttonText' => 'Update Project'])
     <a href="{{ $project->path() }}">Cancel</a>
 
   </form>
