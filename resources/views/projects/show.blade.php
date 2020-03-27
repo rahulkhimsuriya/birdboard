@@ -4,8 +4,8 @@
 
   <header class="flex items-center mb-3 py-4">
     <div class="flex justify-between items-end w-full">
-      <h2 class="text-xl font-normal text-gray-500">
-        <a href="/projects" class="text-xl font-normal text-gray-500 no-underline hover:underline">My Projects</a>
+      <h2 class="text-xl font-normal text-default">
+        <a href="/projects" class="text-xl font-normal text-default no-underline hover:underline">My Projects</a>
         / {{ $project->title }}
       </h2>
 
@@ -28,7 +28,7 @@
       <div class="lg:w-3/4 px-3 mb-6 lg:mb-0">
 
         <div class="mb-8">
-          <h2 class="text-lg mb-3 font-normal text-gray-500">Tasks</h2>
+          <h2 class="text-lg mb-3 font-normal text-default">Tasks</h2>
           {{-- Tasks --}}
           @foreach ($project->tasks as $task)
             <div class="card mb-3">
@@ -38,7 +38,7 @@
                 @method('PATCH')
                 <div class="flex">
                   <input type="text" name="body" value="{{ $task->body }}"
-                         class="w-full {{ $task->completed ? 'text-gray-500' : '' }}">
+                         class="bg-card text-default w-full {{ $task->completed ? 'text-default' : '' }}">
                   <input type="checkbox" name="completed" id="completed"
                          onchange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>
                 </div>
@@ -50,14 +50,14 @@
           <div class="card">
             <form action="{{ $project->path().'/tasks' }}" method="post">
               @csrf
-              <input type="text" placeholder="Add a new task..." name="body" class="w-full">
+              <input type="text" placeholder="Add a new task..." name="body" class="w-full bg-card text-default">
             </form>
           </div>
 
         </div>
 
         <div class="mb-8 lg:mb-0">
-          <h2 class="text-lg mb-3 font-normal text-gray-500">General Notes</h2>
+          <h2 class="text-lg mb-3 font-normal text-default">General Notes</h2>
           {{-- General Notes --}}
           <form action="{{ $project->path() }}" method="post">
             @csrf
