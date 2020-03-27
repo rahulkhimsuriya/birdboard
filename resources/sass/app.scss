@@ -6,34 +6,19 @@
 
 @tailwind components;
 
+@import 'themes/light';
+@import 'themes/dark';
+
+@import 'components/button';
+@import 'components/card';
+
+body,
+button {
+  @apply .text-default;
+}
+
 .section {
-  @apply .px-4;
-}
-
-.button {
-  @apply .bg-button .no-underline .rounded-lg .text-sm .py-2 .px-5;
-  box-shadow: 0 2px 7px 0 #b0eaff;
-  color: #ffffff;
-}
-
-.card {
-  @apply .bg-card .text-default .p-5 .rounded-lg .shadow;
+  @apply .px-8;
 }
 
 @tailwind utilities;
-
-.theme-light {
-  --page-background-color: #f7fafc;
-  --card-background-color: #ffffff;
-  --button-background-color: #47cdff;
-  --header-background-color: #ffffff;
-  --text-default-color: rgba( 0, 0, 0, 0.4);
-}
-
-.theme-dark {
-  --page-background-color: #17181e;
-  --card-background-color: #1f2027;
-  --button-background-color: #59b6f9;
-  --header-background-color: #1f2027;
-  --text-default-color: #ffffff;
-}
