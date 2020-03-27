@@ -662,6 +662,21 @@ video {
   color: #ffffff;
 }
 
+.button.is-outline {
+  background-color: var(--card-background-color);
+  border-width: 1px;
+  border-color: var(--text-accent-color);
+  color: var(--text-accent-color);
+}
+
+.theme-light .button {
+  box-shadow: 0 2px 7px 0 #b0eaff;
+}
+
+.theme-dark .button {
+  box-shadow: 0 2px 7px 0 #00658b;
+}
+
 .card {
   background-color: var(--card-background-color);
   color: var(--text-default-color);
