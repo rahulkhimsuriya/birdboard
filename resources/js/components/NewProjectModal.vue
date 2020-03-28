@@ -34,7 +34,7 @@
                    class="block border border-muted-light mb-2 p-2 text-xs rounded w-full"
                    placeholder="Task 1"
                    v-for="task in form.tasks"
-                   v-model="task.value">
+                   v-model="task.body">
           </div>
 
           <button type="button" class="inline-flex items-center text-xs mb-8" @click="addTask">
@@ -51,7 +51,7 @@
       </div>
 
       <footer class="flex justify-end">
-        <button type="submit" class="button is-outline mr-4" @click.prevent="$modal.hide('new-project')">Cancel</button>
+        <button type="button" class="button is-outline mr-4" @click.prevent="$modal.hide('new-project')">Cancel</button>
         <button type="submit" class="button">Create Project</button>
       </footer>
 
@@ -68,7 +68,7 @@
                     title: '',
                     description: '',
                     tasks: [
-                        {value: ''}
+                        {body: ''}
                     ]
                 },
                 errors: []
@@ -76,7 +76,7 @@
         },
         methods: {
             addTask() {
-                this.form.tasks.push({value: ''});
+                this.form.tasks.push({body: ''});
             },
             async submit() {
                 try {

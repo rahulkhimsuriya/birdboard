@@ -30,6 +30,10 @@
     {
       $project = auth()->user()->projects()->create( $this->validateRequest() );
       
+      if ( $tasks = request( 'tasks' ) ) {
+        $project->addTasks( $tasks );
+      }
+      
       if ( request()->wantsJson() ) {
         return [ 'message' => $project->path() ];
       }
