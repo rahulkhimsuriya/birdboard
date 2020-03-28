@@ -28,9 +28,11 @@
     
     public function store ()
     {
-      $attributes = $this->validateRequest();
+      $project = auth()->user()->projects()->create( $this->validateRequest() );
       
-      $project = auth()->user()->projects()->create( $attributes );
+      if ( request()->wantsJson() ) {
+        return [ 'message' => $project->path() ];
+      }
       
       return redirect( $project->path() );
     }
