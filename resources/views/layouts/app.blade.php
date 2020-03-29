@@ -55,10 +55,23 @@
                                 <div class="flex items-center">
                                     <theme-switcher></theme-switcher>
 
-                                    <a class="flex items-center no-underline text-default" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <img src="{{ gravatar_url(auth()->user()->email) }}" alt="{{ auth()->user()->name }}'s avatar" class="h-12 rounded-full mr-2">
-                                        <span class="font-semibold">{{ Auth::user()->name }}</span>
-                                    </a>
+                                    <dropdown align="right">
+                                        <template v-slot:trigger>
+                                            <button class="flex items-center no-underline text-default focus:outline-none">
+                                                <img src="{{ gravatar_url(auth()->user()->email) }}"
+                                                alt="{{ auth()->user()->name }}'s avatar"
+                                                class="h-10 w-10 rounded-full mr-2">
+                                                <span class="font-semibold">{{ Auth::user()->name }}</span>
+                                            </button>
+                                        </template>
+
+                                        <template v-slot:default>
+                                            <form id="logout-form" action="/logout" method="post">
+                                                @csrf
+                                                <button type="submit" class="dropdown-menu-link w-full text-left">Logout</button>
+                                            </form>
+                                        </template>
+                                    </dropdown>
                                 </div>
                             @endguest
                         </div>
